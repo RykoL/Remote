@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"html/template"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -18,13 +18,6 @@ type MouseMove struct {
 type Dimension struct {
 	Width  int
 	Height int
-}
-
-var tpl = template.Must(template.ParseFiles("index.html"))
-
-func indexHandler(w http.ResponseWriter, req *http.Request) {
-	log.Print("Serving index page\n")
-	tpl.Execute(w, nil)
 }
 
 func handleScroll(w http.ResponseWriter, req *http.Request) {
@@ -60,6 +53,16 @@ func handleClick(w http.ResponseWriter, req *http.Request) {
 	go robotgo.MouseClick("left", false)
 }
 
+func logHandler(w http.ResponseWriter, req *http.Request) {
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	defer req.Body.Close()
+	log.Println(string(body))
+}
+
 func getScreenSize(w http.ResponseWriter, req *http.Request) {
 	x, y := robotgo.GetScreenSize()
 	json.NewEncoder(w).Encode(Dimension{Width: x, Height: y})
@@ -71,11 +74,11 @@ func main() {
 		port = "3000"
 	}
 
-	fs := http.FileServer(http.Dir("assets"))
+	fs := http.FileServer(http.Dir("./assets"))
 	mux := http.NewServeMux()
 
-	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	mux.HandleFunc("/", indexHandler)
+	mux.Handle("/", fs)
+	mux.HandleFunc("/api/log", logHandler)
 	mux.HandleFunc("/api/screen/size", getScreenSize)
 	mux.HandleFunc("/api/mouse/move", handleMove)
 	mux.HandleFunc("/api/mouse/click", handleClick)
