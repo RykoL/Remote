@@ -21,6 +21,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
+
+      - name: Download deps
+        run: go get
       # Runs a set of commands using the runners shell
       - name: Build executable
         run: go build
