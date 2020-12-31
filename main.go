@@ -29,11 +29,12 @@ func handleScroll(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	go scroll(scrollDelta.DY)
+	log.Printf("Scrolling %d", scrollDelta.DY)
+	go scroll(scrollDelta.DY, scrollDelta.Direction)
 }
 
 func handleMove(w http.ResponseWriter, req *http.Request) {
+	log.Print("Received move request")
 	var mouseDelta MouseMove
 	decoder := json.NewDecoder(req.Body)
 
@@ -82,5 +83,6 @@ func main() {
 	mux.HandleFunc("/api/screen/size", getScreenSize)
 	mux.HandleFunc("/api/mouse/move", handleMove)
 	mux.HandleFunc("/api/mouse/click", handleClick)
+	mux.HandleFunc("/api/mouse/scroll", handleScroll)
 	http.ListenAndServe("0.0.0.0:"+port, mux)
 }

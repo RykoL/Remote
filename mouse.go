@@ -10,7 +10,8 @@ type Position struct {
 }
 
 type ScrollDTO struct {
-	DY int `json:dy`
+	DY        int    `json:dy`
+	Direction string `json:direction`
 }
 
 func moveMouse(dX, dY int) {
@@ -20,6 +21,6 @@ func moveMouse(dX, dY int) {
 	robotgo.MoveMouseSmooth(x+dX, y+dY)
 }
 
-func scroll(dY int) {
-	robotgo.ScrollMouse(dY, "up")
+func scroll(dY int, direction string) {
+	robotgo.ScrollMouse(dY, direction)
 }
