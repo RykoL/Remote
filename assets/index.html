@@ -7,8 +7,23 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Yo Remote</h1>
-  <p></p>
+  <aside id="settings">
+    <h1>Settings</h1>
+    <label for="move-sensibility">Mouse sensibility</label>
+    <input id="move-sensibility" type="range" />
+    <label for="scroll-sensibility">Scroll sensibility</label>
+    <input id="scroll-sensibility" type="range" />
+  </aside>
+  <div class="burger-icon">
+    <div class="burger-bar"></div>
+    <div class="burger-bar"></div>
+    <div class="burger-bar"></div>
+  </div>
+  <main id="touch-interface" class="container">
+    <div class="ok-button">
+      <p>YO</p>
+    </div>
+  </main>
   <script type="module" src="mouse.js">
   </script>
 </body>

@@ -1,4 +1,5 @@
 import { SingleTouchBehaviour, ScrollBehaviour } from './behaviour.js';
+import { SettingsDialogController, Settings } from './settings.js';
 
 class RemoteService {
 
@@ -54,19 +55,24 @@ class RemoteService {
 }
 
 class TouchEventController {
-    constructor(remoteService) {
-        this.pos = {x: 0, y: 0};
+    constructor(targetElement, remoteService) {
+        this.targetElement = targetElement;
         this.registerEventHandlers();
-        this.remoteService = remoteService;
         this.moveBehaviour = new SingleTouchBehaviour(remoteService)
         this.scrollBehaviour = new ScrollBehaviour(remoteService);
         this.activeBehaviour = null;
     }
 
     registerEventHandlers() {
-        document.addEventListener("touchstart", this.handleTouchStart.bind(this));
-        document.addEventListener("touchmove", this.handleTouchMove.bind(this));
-        document.addEventListener("touchend", this.handleTouchEnd.bind(this));
+        this.targetElement.addEventListener("touchstart", this.handleTouchStart.bind(this));
+        this.targetElement.addEventListener("touchmove", this.handleTouchMove.bind(this));
+        this.targetElement.addEventListener("touchend", this.handleTouchEnd.bind(this));
+    }
+
+    unregisterEventHandlers() {
+        this.targetElement.removeEventListener("touchstart", this.handleTouchStart);
+        this.targetElement.removeEventListener("touchmove", this.handleTouchMove);
+        this.targetElement.removeEventListener("touchend", this.handleTouchEnd);
     }
 
     handleTouchStart(evt) {
@@ -95,5 +101,8 @@ class TouchEventController {
     }
 }
 
+const targetElement = document.getElementById("touch-interface");
+const dialogElement = document.getElementById("settings");
 const r = new RemoteService();
-const touchController = new TouchEventController(r);
+const settingsDialogController = new SettingsDialogController(dialogElement);
+const touchController = new TouchEventController(targetElement, r);

@@ -53,9 +53,6 @@ export class SingleTouchBehaviour {
 
         const dX = Math.round(calculateMovementDelta(this.pos.x, touch.clientX));
         const dY = Math.round(calculateMovementDelta(this.pos.y, touch.clientY));
-
-        document.getElementsByTagName("p")[0].innerHTML = dX.toString() + " " + dY.toString();
-
         if (dX === 0 && dY === 0) {
             this.remoteService.submitMouseClick();
         } else {
