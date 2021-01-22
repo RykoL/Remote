@@ -1,1 +1,6 @@
 remote
+remote.exe
+*.*~
+**/node_modules/
+./assets/*
+.vscode
