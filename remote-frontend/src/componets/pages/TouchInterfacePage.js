@@ -1,7 +1,7 @@
 import { useState } from "react";
-import styled from 'styled-components';
-import { MouseInteractionService } from "../../service/MouseInteractionService";
-import { calculateMovementDelta, touchListToArray } from '../../util';
+import styled from "styled-components";
+import { submitMouseMove, submitMouseClick, submitScroll } from "../../service/MouseApiService";
+import { calculateMovementDelta, touchListToArray } from "../../util";
 
 const StyledMain = styled.main`
   display: flex;
@@ -24,81 +24,81 @@ const OkButton = styled.div`
   animation: fadein 5s infinite;
 
   @keyframes fadein {
-  0% {
+    0% {
       opacity: 0.2;
       transform: scale(0.95);
-  }
+    }
 
-  50% {
+    50% {
       opacity: 1;
       transform: scale(1);
-  }
+    }
 
-  100% {
-     opacity: 0.2;
+    100% {
+      opacity: 0.2;
       transform: scale(0.95);
-  }
+    }
   }
 
   & p {
-  font-size: 4em;
-  font-weight: bold;
+    font-size: 4em;
+    font-weight: bold;
   }
-
 `;
 
 const TouchInterfacePage = () => {
+  const [touchMap, setTouchMap] = useState(new Map());
 
-    const [touchMap, setTouchMap] = useState();
+  const onClick = async () => {
+    await submitMouseClick();
+  };
 
-    const onClick = async () => {
-        await MouseInteractionService.submitMouseClick();
-    }
+  const onTouchStart = (evt) => {
+    const touchPairs = touchListToArray(evt.touches).map((touch) => {
+      return [touch.identifier, touch];
+    });
+    setTouchMap(new Map(touchPairs));
+  };
 
-    const onTouchStart = (evt) => {
-        const touchPairs = touchListToArray(evt.touches).map((touch) => {
-            return [touch.identifier, touch];
-        });
-        setTouchMap(new Map(touchPairs));
+  const onTouchMove = async (evt) => {
+    const changedTouches = touchListToArray(evt.changedTouches);
+    const numTouches = changedTouches.length;
+
+    const deltaReducer = ({ dX, dY }, touch) => {
+      const initialTouch = touchMap.get(touch.identifier);
+
+      const x = Math.round(
+        calculateMovementDelta(initialTouch.clientX, touch.clientX)
+      );
+      const y = Math.round(
+        calculateMovementDelta(initialTouch.clientY, touch.clientY)
+      );
+
+      return { dX: dX + x, dY: dY + y };
     };
 
-    const onTouchEnd = async (evt) => {
-        const changedTouches = touchListToArray(evt.changedTouches);
-        const numTouches = changedTouches.length;
+    let deltas = changedTouches.reduce(deltaReducer, { dX: 0, dY: 0 });
+    deltas = { dX: deltas.dX / numTouches, dY: deltas.dY / numTouches };
 
-        const deltaReducer = ({dX, dY}, touch) => {
-            const initialTouch = touchMap.get(touch.identifier);
-
-            const x = Math.round(calculateMovementDelta(initialTouch.clientX, touch.clientX));
-            const y = Math.round(calculateMovementDelta(initialTouch.clientY, touch.clientY));
-            
-            return {dX: dX + x, dY: dY + y}
-        }
-
-        let deltas = changedTouches.reduce(deltaReducer, {dX: 0, dY: 0});
-        deltas = {dX: deltas.dX / numTouches, dY: deltas.dY / numTouches};
-
-        if (numTouches === 1) {
-            await MouseInteractionService.submitMouseMove(deltas.dX, deltas.dY);
-        } else {
-            const direction = (deltas.dY > 0) ? "down" : "up";
-            await MouseInteractionService.submitScroll(deltas.dY, direction);
-        }
-
-
+    if (numTouches === 1) {
+      await submitMouseMove(deltas.dX, deltas.dY);
+    } else {
+      const direction = deltas.dY > 0 ? "down" : "up";
+      await submitScroll(deltas.dY, direction);
     }
+  };
 
-    return (
-        <StyledMain 
-            onClick={onClick}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-            >
-            <OkButton>
-                <p>YO</p>
-            </OkButton>
-        </StyledMain>
-    );
-}
+  return (
+    <StyledMain
+      onClick={onClick}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+    >
+      <OkButton>
+        <p>YO</p>
+      </OkButton>
+    </StyledMain>
+  );
+};
 
 export default TouchInterfacePage;

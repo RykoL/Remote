@@ -4,3 +4,4 @@ remote.exe
 **/node_modules/
 assets/
 .vscode
+coverage
