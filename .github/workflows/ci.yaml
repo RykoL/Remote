@@ -30,3 +30,13 @@ jobs:
         
       - name: Lint files
         run: npm run lint --prefix remote-frontend/
+
+      - name: build
+        run: npm run build --prefix remote-frontend/
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Remote frontend
+          path: |
+            ./remote-frontend/build
