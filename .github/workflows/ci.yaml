@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v1
         
       - name: Download dependencies
-        run: npm i
+        run: npm i --prefix remote-frontend/
         
       - name: Run tests  
         run: npm test --prefix remote-frontend/
