@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import TouchInterfacePage from "./TouchInterfacePage";
 import { submitMouseMove, submitScroll, submitMouseClick } from "../../service/MouseApiService";
 

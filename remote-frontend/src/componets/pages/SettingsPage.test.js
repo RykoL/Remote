@@ -14,9 +14,4 @@ describe("settings page", () => {
     expect(screen.getByLabelText(/Mouse sensitivity/i)).toBeInTheDocument();
   });
 
-  test("should have a slider for mouse sensitivity", () => {
-    render(<SettingsPage />);
-
-    expect(screen.getByLabelText(/Scroll sensitivity/i)).toBeInTheDocument();
-  });
 });
