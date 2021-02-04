@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  test:
+  test-frontend:
 
     runs-on: ubuntu-16.04
     
@@ -40,3 +40,31 @@ jobs:
           name: Remote frontend
           path: |
             ./remote-frontend/build
+
+  test-api:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Download deps
+        run: go get
+      
+      - name: Build executable
+        run: go build
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: remote package
+          path: |
+            ./remote.exe
