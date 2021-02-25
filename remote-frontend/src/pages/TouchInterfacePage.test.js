@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import TouchInterfacePage from "./TouchInterfacePage";
-import { submitMouseMove, submitScroll, submitMouseClick } from "../../service/MouseApiService";
+import { submitMouseMove, submitScroll, submitMouseClick } from "../api/MouseApiService";
 
-jest.mock("../../service/MouseApiService");
+jest.mock("../api/MouseApiService");
 
 const makeTouch = (x, y, identifier) => {
   return { clientX: x, clientY: y, identifier };

@@ -1,0 +1,9 @@
+.alert {
+    max-width: 300px;
+    padding: 20px;
+}
+
+.alert-error {
+    background: #f44336;
+    color: white;
+}

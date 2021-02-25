@@ -5,16 +5,25 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #161618;
+  background: #292a2b;
+  /*background: #161618;*/
   overflow: hidden;
   position: fixed;
   top: 0px;
   touch-action: pan-x pan-y;
-  color: #f2f5f4;
+  color: #afafaf;
+  /*color: #f2f5f4;*/
   height: 100%;
   width: 100%;
 }
 
 #root {
   height: 100%;
+}
+
+button {
+  border: 1px solid hsl(0, 0%, 10%);
+  background-color: hsl(0, 0%, 14%);
+  border-radius: 5%;
+  color: rgba(255, 255, 255, 0.8);
 }

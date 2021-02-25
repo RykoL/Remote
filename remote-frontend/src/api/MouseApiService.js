@@ -1,4 +1,4 @@
-import { apiUrl } from "./base";
+import { apiUrl, isErrorResponse } from "./base";
 
 export const submitMouseMove = async (dx, dy) => {
   const body = JSON.stringify({ dX: dx, dY: dy });
@@ -41,6 +41,4 @@ export const submitMouseClick = async () => {
   }
 };
 
-const isErrorResponse = (resp) => {
-  return resp.status >= 400;
-};
+

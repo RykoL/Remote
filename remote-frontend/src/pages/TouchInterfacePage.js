@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { submitMouseMove, submitMouseClick, submitScroll } from "../../service/MouseApiService";
-import { calculateMovementDelta, touchListToArray } from "../../util";
+import { submitMouseMove, submitMouseClick, submitScroll } from "../api/MouseApiService";
+import { calculateMovementDelta, touchListToArray } from "../util";
 
 const StyledMain = styled.main`
   display: flex;

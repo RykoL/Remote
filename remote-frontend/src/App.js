@@ -1,11 +1,22 @@
-import TouchInterfacePage from "./componets/pages/TouchInterfacePage";
+import TouchInterfacePage from "./pages/TouchInterfacePage";
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import SettingsPage from "./pages/SettingsPage";
 
 const App = () => {
+
   return (
-    <>
-      <button>Burger</button>
-      <TouchInterfacePage></TouchInterfacePage>
-    </>
+    <Router>
+      <a href="/settings">Settings</a>
+      <Switch>
+        <Route path="/settings">
+          <SettingsPage />
+        </Route>
+        <Route path="/">
+          <TouchInterfacePage></TouchInterfacePage>
+        </Route>
+      </Switch>
+
+    </Router>
   );
 };
 
