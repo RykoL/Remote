@@ -28,7 +28,7 @@ func handleScroll(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	log.Printf("Scrolling %d", scrollDelta.DY)
+	log.Printf("Scrolling %d %s", scrollDelta.DY, scrollDelta.Direction)
 	mouseService.Scroll(scrollDelta)
 }
 
