@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState} from "react";
 import styled from "styled-components";
-import { submitMouseMove, submitMouseClick, submitScroll } from "../api/MouseApiService";
+import { submitMouseClick, submitScroll } from "../api/MouseApiService";
+import { OkButton } from '../components/TouchInterfacePage/OkButton';
+import { MouseMoveHandler } from "../mouseHandlers/mouseMoveHandler";
+import { MouseScrollHandler } from "../mouseHandlers/mouseScrollHandler";
 import { calculateMovementDelta, touchListToArray } from "../util";
 
 const StyledMain = styled.main`
@@ -10,92 +13,43 @@ const StyledMain = styled.main`
   height: 100%;
 `;
 
-const OkButton = styled.div`
-  border: 2px solid #f2f5f4;
-  border-radius: 50%;
-  margin: 0 auto;
-  max-width: 200px;
-  max-height: 200px;
-  min-width: 200px;
-  min-height: 200px;
-  text-align: center;
-  grid-row: 2 / 2;
-  grid-column: 2 / 2;
-  animation: fadein 5s infinite;
-
-  @keyframes fadein {
-    0% {
-      opacity: 0.2;
-      transform: scale(0.95);
-    }
-
-    50% {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    100% {
-      opacity: 0.2;
-      transform: scale(0.95);
-    }
-  }
-
-  & p {
-    font-size: 4em;
-    font-weight: bold;
-  }
-`;
+const handlerMap = {
+  1: MouseMoveHandler,
+  2: MouseScrollHandler
+}
 
 const TouchInterfacePage = () => {
-  const [touchMap, setTouchMap] = useState(new Map());
-
+  const [touchHandler, setTouchHandler] = useState();
+  const [message, setMessage] = useState("YO");
+  
   const onClick = async () => {
     await submitMouseClick();
   };
 
-  const onTouchStart = (evt) => {
-    const touchPairs = touchListToArray(evt.touches).map((touch) => {
-      return [touch.identifier, touch];
-    });
-    setTouchMap(new Map(touchPairs));
+  const handleTouchStart = (evt) => {
+    const handler = new handlerMap[evt.touches.length]();
+    handler.startGesture(evt);
+    setMessage(handler.operation);
+    setTouchHandler(handler);
   };
 
   const onTouchMove = async (evt) => {
-    const changedTouches = touchListToArray(evt.changedTouches);
-    const numTouches = changedTouches.length;
-
-    const deltaReducer = ({ dX, dY }, touch) => {
-      const initialTouch = touchMap.get(touch.identifier);
-
-      const x = Math.round(
-        calculateMovementDelta(initialTouch.clientX, touch.clientX)
-      );
-      const y = Math.round(
-        calculateMovementDelta(initialTouch.clientY, touch.clientY)
-      );
-
-      return { dX: dX + x, dY: dY + y };
-    };
-
-    let deltas = changedTouches.reduce(deltaReducer, { dX: 0, dY: 0 });
-    deltas = { dX: deltas.dX / numTouches, dY: deltas.dY / numTouches };
-
-    if (numTouches === 1) {
-      await submitMouseMove(deltas.dX, deltas.dY);
-    } else {
-      const direction = deltas.dY > 0 ? "down" : "up";
-      await submitScroll(deltas.dY, direction);
-    }
+    await touchHandler.moveGesture(evt);
   };
+
+  const onTouchEnd = async (evt) => {
+    await touchHandler.endGesture(evt);
+  }
 
   return (
     <StyledMain
       onClick={onClick}
-      onTouchStart={onTouchStart}
+      onTouchStart={handleTouchStart}
       onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
     >
       <OkButton>
-        <p>YO</p>
+        <p>{message}</p>
       </OkButton>
     </StyledMain>
   );
