@@ -20,10 +20,3 @@ body {
 #root {
   height: 100%;
 }
-
-button {
-  border: 1px solid hsl(0, 0%, 10%);
-  background-color: hsl(0, 0%, 14%);
-  border-radius: 5%;
-  color: rgba(255, 255, 255, 0.8);
-}

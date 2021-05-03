@@ -63,7 +63,7 @@ const SettingsPage = () => {
           minimum={SLIDER_MIN}
           maximum={SLIDER_MAX}
         />
-        <button onClick={saveSettings}>Save</button>
+        <button className={styles.saveButton} onClick={saveSettings}>Save</button>
         {message && <Alert type="error">{message}</Alert>}
       </section>
     </article>
