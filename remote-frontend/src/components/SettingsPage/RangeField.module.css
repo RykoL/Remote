@@ -8,21 +8,11 @@ input {
     color: rgba(255, 255, 255, 0.8);
 }
 
-.range-boundary {
-    padding: 0px 7px;
-}
-
-#left-range {
-    float: left;
-    padding-left: 0px;
-}
-
-input[type="range"] {
-    float: left
-}
-
-input[type="text"], input[type="range"] {
+.rangeFieldSlider {
     border: 1px solid hsl(0, 0%, 10%);
     background-color: hsl(0, 0%, 14%);
     border-radius: 5%;
+    float: left;
+    margin-right: 5px;
+    max-width: 90%;
 }

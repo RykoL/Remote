@@ -18,11 +18,18 @@ button {
     height: 50px;
 }
 
-input[type="text"], button {
-    width: 90%;
+input {
+    width: 100%;
 }
 
 input[type="range"] {
     width: 85%;
 }
 
+
+.settingsSection {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-row-gap: 1em;
+    padding: 10px;
+}

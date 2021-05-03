@@ -1,10 +1,9 @@
 import { useState} from "react";
 import styled from "styled-components";
-import { submitMouseClick, submitScroll } from "../api/MouseApiService";
+import { submitMouseClick } from "../api/MouseApiService";
 import { OkButton } from '../components/TouchInterfacePage/OkButton';
 import { MouseMoveHandler } from "../mouseHandlers/mouseMoveHandler";
 import { MouseScrollHandler } from "../mouseHandlers/mouseScrollHandler";
-import { calculateMovementDelta, touchListToArray } from "../util";
 
 const StyledMain = styled.main`
   display: flex;
