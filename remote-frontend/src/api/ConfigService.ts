@@ -8,7 +8,7 @@ const ConfigService = {
             headers: {
               "Content-Type": "application/json",
             },
-            body: settings as any,
+          body: JSON.stringify(settings),
           });
 
           if (isErrorResponse(response)) {

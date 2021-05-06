@@ -50,7 +50,6 @@ func handleMove(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	log.Printf("Moving mouse by x: %d y: %d \n", mouseDelta.DX, mouseDelta.DY)
 	mouseService.Move(mouseDelta)
 }
 

@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/rykol/remote/service"
+	"github.com/rykol/remote/service/domain"
 	"github.com/rykol/remote/web"
 )
 
@@ -26,12 +27,15 @@ func main() {
 
 	mux.Handle("/", fs)
 
-	mouseWorker := service.NewMouseWorker()
+	config := domain.NewDefaultConfig()
+	configController := web.NewConfigController(&config)
+
+	mouseWorker := service.NewMouseWorker(&config)
 	go mouseWorker.Run()
 	mouseService := service.NewMouseService(mouseWorker)
 
 	web.RegisterMouseRoutes(mux, mouseService)
-	web.RegisterConfigRoutes(mux)
+	configController.RegisterConfigRoutes(mux)
 
 	log.Printf("Serving at 0.0.0.0:%s", port)
 	http.ListenAndServe("0.0.0.0:"+port, mux)
