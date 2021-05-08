@@ -68,9 +68,3 @@ jobs:
           name: remote package
           path: |
             ./remote.exe
-
-  build-distributable:
-
-    runs-on: ubuntu-16.04
-
-    
