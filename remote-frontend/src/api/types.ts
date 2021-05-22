@@ -1,6 +1,4 @@
-
-
 export interface Settings {
-    scrollSensitivity: number,
-    mouseSensitivity: number
+  scrollSensitivity: number;
+  mouseSensitivity: number;
 }

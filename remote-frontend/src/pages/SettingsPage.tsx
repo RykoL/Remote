@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import SettingsService from "../api/SettingsService";
 import { RangeField } from "../components/SettingsPage/RangeField";
-import Alert from '../components/commons/Alert';
-import styles from './SettingsPage.module.css';
+import Alert from "../components/commons/Alert";
+import styles from "./SettingsPage.module.css";
 
 export const SLIDER_MIN = 0;
 export const SLIDER_MAX = 5;
 
-
 const SettingsPage = () => {
-
   const [message, setMessage] = useState("");
   const [scrollSensitivity, setScrollSensitivity] = useState<number>(0);
   const [mouseSensitivity, setMouseSensitivity] = useState<number>(0);
@@ -32,18 +30,18 @@ const SettingsPage = () => {
 
   const onChangeScroll = (e: any) => {
     setScrollSensitivity(parseFloat(e.target.value));
-  }
+  };
 
   const onChangeMouse = (e: any) => {
     setMouseSensitivity(parseFloat(e.target.value));
-  }
+  };
 
   const saveSettings = () => {
     SettingsService.saveSettings({ mouseSensitivity, scrollSensitivity });
-  }
+  };
 
   return (
-    <article >
+    <article>
       <section>
         <a href="/">Back</a>
         <h1>Settings</h1>
@@ -63,7 +61,9 @@ const SettingsPage = () => {
           minimum={SLIDER_MIN}
           maximum={SLIDER_MAX}
         />
-        <button className={styles.saveButton} onClick={saveSettings}>Save</button>
+        <button className={styles.saveButton} onClick={saveSettings}>
+          Save
+        </button>
         {message && <Alert type="error">{message}</Alert>}
       </section>
     </article>

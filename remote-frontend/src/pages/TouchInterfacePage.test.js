@@ -1,6 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import TouchInterfacePage from "./TouchInterfacePage";
-import { submitMouseMove, submitScroll, submitMouseClick } from "../api/MouseApiService";
+import {
+  submitMouseMove,
+  submitScroll,
+  submitMouseClick,
+} from "../api/MouseApiService";
 
 jest.mock("../api/MouseApiService");
 
@@ -27,7 +31,7 @@ describe("TouchInterfacePage", () => {
       changedTouches: [makeTouch(300, 700, "a")],
     });
 
-    expect(screen.getByText("moving")).toBeInTheDocument()
+    expect(screen.getByText("moving")).toBeInTheDocument();
   });
 
   test("should send scroll up request with double touch move upwards", async () => {
@@ -40,8 +44,7 @@ describe("TouchInterfacePage", () => {
       changedTouches: [makeTouch(0, 300, "a"), makeTouch(0, 310, "b")],
     });
 
-
-    expect(screen.getByText("Scrolling")).toBeInTheDocument()
+    expect(screen.getByText("Scrolling")).toBeInTheDocument();
   });
 
   test("should send scroll down request with double touch move downards", async () => {
@@ -54,6 +57,6 @@ describe("TouchInterfacePage", () => {
       changedTouches: [makeTouch(0, 700, "a"), makeTouch(0, 760, "b")],
     });
 
-    expect(screen.getByText("Scrolling")).toBeInTheDocument()
+    expect(screen.getByText("Scrolling")).toBeInTheDocument();
   });
 });

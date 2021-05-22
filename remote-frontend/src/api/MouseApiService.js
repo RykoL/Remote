@@ -12,7 +12,9 @@ export const submitMouseMove = async (dx, dy) => {
   });
 
   if (isErrorResponse(response)) {
-    return Promise.reject(`Error when submitting move request ${await response.text()}`);
+    return Promise.reject(
+      `Error when submitting move request ${await response.text()}`
+    );
   }
 };
 
@@ -27,7 +29,9 @@ export const submitScroll = async (dy, direction) => {
   });
 
   if (isErrorResponse(response)) {
-    return Promise.reject(`Error when submitting scroll request ${await response.text()}`);
+    return Promise.reject(
+      `Error when submitting scroll request ${await response.text()}`
+    );
   }
 };
 
@@ -37,8 +41,8 @@ export const submitMouseClick = async () => {
   });
 
   if (isErrorResponse(response)) {
-    return Promise.reject(`Error when submitting click request ${await response.text()}`);
+    return Promise.reject(
+      `Error when submitting click request ${await response.text()}`
+    );
   }
 };
-
-

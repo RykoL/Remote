@@ -1,9 +1,8 @@
 import TouchInterfacePage from "./pages/TouchInterfacePage";
-import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SettingsPage from "./pages/SettingsPage";
 
 const App = () => {
-
   return (
     <Router>
       <a href="/settings">Settings</a>
@@ -15,7 +14,6 @@ const App = () => {
           <TouchInterfacePage></TouchInterfacePage>
         </Route>
       </Switch>
-
     </Router>
   );
 };

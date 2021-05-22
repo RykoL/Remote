@@ -1,25 +1,24 @@
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 button {
-    height: 50px;
+  height: 50px;
 }
 
 input {
-    width: 100%;
+  width: 100%;
 }
 
 input[type="range"] {
-    width: 85%;
+  width: 85%;
 }
 
-
 .settingsSection {
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    grid-row-gap: 1em;
-    padding: 10px;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-row-gap: 1em;
+  padding: 10px;
 }
 
 .saveButton {
@@ -30,5 +29,5 @@ input[type="range"] {
 }
 
 .saveButton:hover {
-    cursor: pointer;
+  cursor: pointer;
 }

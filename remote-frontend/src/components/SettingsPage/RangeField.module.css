@@ -1,18 +1,18 @@
 label {
-    display: block;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.7);
+  display: block;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 input {
-    color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .rangeFieldSlider {
-    border: 1px solid hsl(0, 0%, 10%);
-    background-color: hsl(0, 0%, 14%);
-    border-radius: 5%;
-    float: left;
-    margin-right: 5px;
-    max-width: 90%;
+  border: 1px solid hsl(0, 0%, 10%);
+  background-color: hsl(0, 0%, 14%);
+  border-radius: 5%;
+  float: left;
+  margin-right: 5px;
+  max-width: 90%;
 }

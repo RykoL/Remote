@@ -1,56 +1,61 @@
-import SettingsService from './SettingsService';
-import {apiUrl} from './base';
+import SettingsService from "./SettingsService";
+import { apiUrl } from "./base";
 
 describe("SettingsService", () => {
+  global.fetch = jest.fn();
 
-    global.fetch = jest.fn();
+  const fetchOptionTemplate = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-    const fetchOptionTemplate = {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        }
+  beforeEach(() => {
+    fetch.mockClear();
+  });
+
+  test("should resolve if request was succesfull", async () => {
+    const config = {
+      mouseSensitivity: 0.3,
+      scrollSensitivity: 0.2,
     };
 
-    beforeEach(() => {
-        fetch.mockClear();
-    })
-
-    test("should resolve if request was succesfull", async () => {
-        const config = {
-            mouseSensitivity: 0.3,
-            scrollSensitivity: 0.2,
-        }
-
-        fetch.mockImplementationOnce(() => {
-            return Promise.resolve({
-                status: 200,
-                text: () => Promise.resolve("")
-            });
-        });
-
-        await expect(SettingsService.saveSettings(config)).resolves.toEqual(undefined);
-
-        const fetchOptions = {...fetchOptionTemplate, body: JSON.stringify(config)};
-
-        expect(global.fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(`${apiUrl}/api/settings`, fetchOptions);
+    fetch.mockImplementationOnce(() => {
+      return Promise.resolve({
+        status: 200,
+        text: () => Promise.resolve(""),
+      });
     });
 
-    test("should reject if request was not succesfull", async () => {
-        const config = {
-            mouseSensitivity: 0.3,
-            scrollSensitivity: 0.2,
-        }
+    await expect(SettingsService.saveSettings(config)).resolves.toEqual(
+      undefined
+    );
 
-        fetch.mockImplementationOnce(() => {
-            return Promise.resolve({
-                status: 400,
-                text: () => Promise.resolve("")
-            });
-        });
+    const fetchOptions = {
+      ...fetchOptionTemplate,
+      body: JSON.stringify(config),
+    };
 
-        await expect(SettingsService.saveSettings(config)).rejects.toEqual(undefined);
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(`${apiUrl}/api/settings`, fetchOptions);
+  });
+
+  test("should reject if request was not succesfull", async () => {
+    const config = {
+      mouseSensitivity: 0.3,
+      scrollSensitivity: 0.2,
+    };
+
+    fetch.mockImplementationOnce(() => {
+      return Promise.resolve({
+        status: 400,
+        text: () => Promise.resolve(""),
+      });
     });
 
-})
+    await expect(SettingsService.saveSettings(config)).rejects.toEqual(
+      undefined
+    );
+  });
+});

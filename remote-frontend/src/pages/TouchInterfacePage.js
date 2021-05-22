@@ -1,7 +1,7 @@
-import { useState} from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { submitMouseClick } from "../api/MouseApiService";
-import { OkButton } from '../components/TouchInterfacePage/OkButton';
+import { OkButton } from "../components/TouchInterfacePage/OkButton";
 import { MouseMoveHandler } from "../mouseHandlers/mouseMoveHandler";
 import { MouseScrollHandler } from "../mouseHandlers/mouseScrollHandler";
 
@@ -14,13 +14,13 @@ const StyledMain = styled.main`
 
 const handlerMap = {
   1: MouseMoveHandler,
-  2: MouseScrollHandler
-}
+  2: MouseScrollHandler,
+};
 
 const TouchInterfacePage = () => {
   const [touchHandler, setTouchHandler] = useState();
   const [message, setMessage] = useState("YO");
-  
+
   const onClick = async () => {
     await submitMouseClick();
   };
@@ -38,7 +38,7 @@ const TouchInterfacePage = () => {
 
   const onTouchEnd = async (evt) => {
     await touchHandler.endGesture(evt);
-  }
+  };
 
   return (
     <StyledMain
