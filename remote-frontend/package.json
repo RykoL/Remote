@@ -18,7 +18,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false --testPathIgnorePatterns src/**/*.pact.test.ts",
+    "test:pact": "react-scripts test --watchAll=false src/**/*.pact.test.ts",
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "pretty": "prettier --write src"

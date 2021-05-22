@@ -26,9 +26,9 @@ describe("settings page", () => {
 
     render(<SettingsPage />);
 
-    waitFor(SettingsService.getSettings);
+    await waitFor(SettingsService.getSettings);
 
-    expect(await screen.getByLabelText(/Mouse sensitivity/i).value).toBe("1");
+    expect((await screen.findByLabelText(/Mouse sensitivity/i)).value).toBe("1");
     expect(await screen.getByLabelText(/Scroll sensitivity/i).value).toBe("1");
   });
 

@@ -12,14 +12,13 @@ type ConfigController struct {
 	config *domain.Config
 }
 
-var fuck domain.Config
-
 func NewConfigController(config *domain.Config) ConfigController {
 	return ConfigController {config}
 }
 
 func (c ConfigController) ConfigGetHandler(w http.ResponseWriter, req *http.Request) {
 	log.Printf("Got config  %+v\n", c.config)
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(c.config)
 }
 
@@ -53,5 +52,5 @@ func (c ConfigController) ConfigMethodRouter(w http.ResponseWriter, req *http.Re
 }
 
 func (c ConfigController) RegisterConfigRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("/api/config", c.ConfigMethodRouter)
+	mux.HandleFunc("/api/settings", c.ConfigMethodRouter)
 }

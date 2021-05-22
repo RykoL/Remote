@@ -1,7 +1,7 @@
 import SettingsService from './SettingsService';
 import {apiUrl} from './base';
 
-describe("ConfigService", () => {
+describe("SettingsService", () => {
 
     global.fetch = jest.fn();
 
@@ -31,10 +31,10 @@ describe("ConfigService", () => {
 
         await expect(SettingsService.saveSettings(config)).resolves.toEqual(undefined);
 
-        const fetchOptions = {...fetchOptionTemplate, body: config};
+        const fetchOptions = {...fetchOptionTemplate, body: JSON.stringify(config)};
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(`${apiUrl}/api/config`, fetchOptions);
+        expect(fetch).toHaveBeenCalledWith(`${apiUrl}/api/settings`, fetchOptions);
     });
 
     test("should reject if request was not succesfull", async () => {

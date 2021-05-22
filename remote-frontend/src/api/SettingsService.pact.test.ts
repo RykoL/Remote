@@ -1,11 +1,15 @@
 import path from 'path';
-import { Interaction, Pact } from '@pact-foundation/pact';
+import {settingsFixture} from '../fixtures/settingsFixture';
+import SettingsService from './SettingsService';
+import { Pact } from '@pact-foundation/pact';
+import { like } from '@pact-foundation/pact/src/dsl/matchers';
 
 const provider = new Pact({
     consumer: 'RemoteFrontend',
     provider: 'RemoteApi',
     log: path.resolve(process.cwd(), "logs", "pact.log"),
     dir: path.resolve(process.cwd(), "pacts"),
+    port: 4000,
     logLevel: "info",
 })
 
@@ -23,16 +27,23 @@ describe("Configuration Pact", () => {
             uponReceiving: 'a request go get the sensitivity config',
             withRequest: {
                 method: 'GET',
-                path: '/api/config'
+                path: '/api/settings'
             },
             willRespondWith: {
                 status: 200,
                 headers: {
                     "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
                 },
-                body
-
+                body: like({
+                    mouseSensitivity: 1.0,
+                    scrollSensitivity: 1.0,
+                })
             }
         })
+
+
+        expect(await SettingsService.getSettings())
+            .toStrictEqual(settingsFixture)
     })
 });
