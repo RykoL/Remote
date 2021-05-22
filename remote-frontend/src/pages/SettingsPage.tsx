@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ConfigService from "../api/ConfigService";
+import SettingsService from "../api/SettingsService";
 import { RangeField } from "../components/SettingsPage/RangeField";
 import Alert from '../components/commons/Alert';
 import styles from './SettingsPage.module.css';
@@ -17,7 +17,7 @@ const SettingsPage = () => {
   useEffect(() => {
     async function fetchConfig() {
       try {
-        const settings = await ConfigService.getConfig();
+        const settings = await SettingsService.getSettings();
         if (settings) {
           setScrollSensitivity(settings.scrollSensitivity);
           setMouseSensitivity(settings.mouseSensitivity);
@@ -39,7 +39,7 @@ const SettingsPage = () => {
   }
 
   const saveSettings = () => {
-    ConfigService.saveConfig({ mouseSensitivity, scrollSensitivity });
+    SettingsService.saveSettings({ mouseSensitivity, scrollSensitivity });
   }
 
   return (

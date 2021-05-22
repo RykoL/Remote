@@ -1,9 +1,9 @@
 import {apiUrl, isErrorResponse} from './base';
 import {Settings} from './types'
 
-const ConfigService = {
-    saveConfig: async (settings: Settings) => {
-        const response = await fetch(apiUrl + "/api/config", {
+const SettingsService = {
+    saveSettings: async (settings: Settings) => {
+        const response = await fetch(apiUrl + "/api/settings", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -16,8 +16,8 @@ const ConfigService = {
           }
     },
 
-    getConfig: async (): Promise<Settings> => {
-        const response = await fetch(`${apiUrl}/api/config`);
+    getSettings: async (): Promise<Settings> => {
+        const response = await fetch(`${apiUrl}/api/settings`);
 
         if (isErrorResponse(response)) {
             return Promise.reject();
@@ -27,4 +27,4 @@ const ConfigService = {
     }
 }
 
-export default ConfigService;
+export default SettingsService;

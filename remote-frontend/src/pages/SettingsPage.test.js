@@ -1,9 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import ConfigService from "../api/ConfigService";
+import SettingsService from "../api/SettingsService";
 import SettingsPage, {SLIDER_MIN, SLIDER_MAX} from "./SettingsPage";
 
 
-jest.mock("../api/ConfigService");
+jest.mock("../api/SettingsService");
 
 
 describe("settings page", () => {
@@ -22,11 +22,11 @@ describe("settings page", () => {
 
   test.only("should retrieve initial config values from api", async () => {
     
-    ConfigService.getConfig.mockResolvedValue(settings);
+    SettingsService.getSettings.mockResolvedValue(settings);
 
     render(<SettingsPage />);
 
-    waitFor(ConfigService.getConfig);
+    waitFor(SettingsService.getSettings);
 
     expect(await screen.getByLabelText(/Mouse sensitivity/i).value).toBe("1");
     expect(await screen.getByLabelText(/Scroll sensitivity/i).value).toBe("1");
@@ -45,7 +45,7 @@ describe("settings page", () => {
       mouseSensitivity: 0.3,
     };
 
-    expect(ConfigService.saveConfig).toHaveBeenCalledWith(expected);
+    expect(SettingsService.saveSettings).toHaveBeenCalledWith(expected);
   });
 
   describe("Scroll sensitivity slider" , () => {

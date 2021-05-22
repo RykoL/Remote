@@ -1,4 +1,4 @@
-import ConfigService from './ConfigService';
+import SettingsService from './SettingsService';
 import {apiUrl} from './base';
 
 describe("ConfigService", () => {
@@ -29,7 +29,7 @@ describe("ConfigService", () => {
             });
         });
 
-        await expect(ConfigService.saveConfig(config)).resolves.toEqual(undefined);
+        await expect(SettingsService.saveSettings(config)).resolves.toEqual(undefined);
 
         const fetchOptions = {...fetchOptionTemplate, body: config};
 
@@ -50,7 +50,7 @@ describe("ConfigService", () => {
             });
         });
 
-        await expect(ConfigService.saveConfig(config)).rejects.toEqual(undefined);
+        await expect(SettingsService.saveSettings(config)).rejects.toEqual(undefined);
     });
 
 })
