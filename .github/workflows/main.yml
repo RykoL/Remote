@@ -87,3 +87,4 @@ jobs:
         with:
           artifacts: "remote.exe,assets"
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.event.inputs.version }}
