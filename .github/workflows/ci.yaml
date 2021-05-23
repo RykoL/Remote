@@ -58,6 +58,9 @@ jobs:
 
       - name: Download deps
         run: go get
+
+      - name: Test
+        run: go test ./...
       
       - name: Build executable
         run: go build
