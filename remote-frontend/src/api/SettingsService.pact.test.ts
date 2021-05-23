@@ -11,6 +11,7 @@ const provider = new Pact({
   dir: path.resolve(process.cwd(), "pacts"),
   port: 4000,
   logLevel: "info",
+  cors: true
 });
 
 describe("Configuration Pact", () => {
@@ -36,9 +37,30 @@ describe("Configuration Pact", () => {
           mouseSensitivity: 1.0,
           scrollSensitivity: 1.0,
         }),
+
       },
     });
 
     expect(await SettingsService.getSettings()).toStrictEqual(settingsFixture);
+  });
+
+  test("updating configuration", async () => {
+    await provider.addInteraction({
+      state: "no config has been set",
+      uponReceiving: "a request to update the sensitivity settings",
+      withRequest: {
+        method: "PUT",
+        path: "/api/settings",
+        body: like(settingsFixture),
+      },
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    })
+
+    expect(await SettingsService.saveSettings(settingsFixture)).toBe(undefined);
   });
 });
