@@ -87,5 +87,5 @@ jobs:
           name: frontend-build
           path: ./assets
 
-          - name: List directory
-            run: ls -R
+      - name: List directory
+        run: ls -R
