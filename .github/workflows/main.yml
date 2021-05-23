@@ -86,8 +86,12 @@ jobs:
           name: frontend-build
           path: ./assets
 
+      - uses: thedoctor0/zip-release@master
+        with:
+          filename: "remote-${{ github.event.inputs.version }}.zip"
+
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "remote.exe,assets"
+          artifacts: "remote-${{ github.event.inputs.version }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.event.inputs.version }}
