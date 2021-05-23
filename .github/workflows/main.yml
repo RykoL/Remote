@@ -5,6 +5,8 @@ name: build
 # Controls when the action will run. 
 on:
   workflow_dispatch:
+    version:
+      required: true
 
 jobs:
 
