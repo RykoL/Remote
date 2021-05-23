@@ -4,12 +4,8 @@ name: build
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branc
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
   build-frontend:
@@ -87,5 +83,7 @@ jobs:
           name: frontend-build
           path: ./assets
 
-      - name: List directory
-        run: ls -R
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "remote.exe,assets"
+          token: ${{ secrets.GITHUB_TOKEN }}
