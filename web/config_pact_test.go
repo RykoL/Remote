@@ -34,7 +34,7 @@ func TestConfigProvider(t *testing.T) {
 
 	go startServer()
 
-_,	 err := pact.VerifyProvider(t, types.VerifyRequest {
+	_, err := pact.VerifyProvider(t, types.VerifyRequest {
 		ProviderBaseURL: "http://localhost:8000",
 		PactURLs: []string{filepath.ToSlash(fmt.Sprintf("%s/remotefrontend-remoteapi.json", pactDir))},
 		StateHandlers: types.StateHandlers{

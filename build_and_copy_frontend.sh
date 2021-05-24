@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 
+rm -rf assets
 npm run build --prefix remote-frontend/
-cp -R remote-frontend/build assets
+mv remote-frontend/build assets

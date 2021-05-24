@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/rykol/remote/service"
 	"github.com/rykol/remote/service/domain"
@@ -22,13 +23,16 @@ func main() {
 		port = "8000"
 	}
 
-	fs := http.FileServer(http.Dir("./assets"))
-	mux := http.NewServeMux()
+	baseDir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+	assetDir := filepath.Join(baseDir, "assets")
 
-	mux.Handle("/", fs)
+	mux := http.NewServeMux()
 
 	config := domain.NewDefaultConfig()
 	configController := web.NewConfigController(&config)
+
+	staticController := web.SPAStaticHandler{StaticPath: assetDir, IndexPath: "index.html"}
+	staticController.RegisterStaticFileRoutes(mux)
 
 	mouseWorker := service.NewMouseWorker(&config)
 	go mouseWorker.Run()
