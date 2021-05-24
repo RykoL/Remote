@@ -4,12 +4,25 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
+	"net"
 	"github.com/rykol/remote/service/domain"
 )
 
 type ConfigController struct {
 	config *domain.Config
+}
+
+func GetOutboundIP() net.IP {
+    conn, err := net.Dial("udp", "8.8.8.8:80")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer conn.Close()
+
+    localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+	log.Println(localAddr.IP)
+    return localAddr.IP
 }
 
 func NewConfigController(config *domain.Config) ConfigController {
@@ -20,6 +33,10 @@ func (c ConfigController) ConfigGetHandler(w http.ResponseWriter, req *http.Requ
 	log.Printf("Got config  %+v\n", c.config)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(c.config)
+}
+
+func (c ConfigController) WhoAmI(w http.ResponseWriter, req *http.Request) {
+	w.Write([]byte(GetOutboundIP().String()))
 }
 
 func (c *ConfigController) UpdateConfigHandler(w http.ResponseWriter, req *http.Request) {
@@ -53,4 +70,5 @@ func (c ConfigController) ConfigMethodRouter(w http.ResponseWriter, req *http.Re
 
 func (c ConfigController) RegisterConfigRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/api/settings", c.ConfigMethodRouter)
+	mux.HandleFunc("/api/settings/whoami", c.WhoAmI)
 }
