@@ -25,6 +25,16 @@ const SettingsService = {
 
     return response.json();
   },
+
+  whoami: async (): Promise<string> => {
+    const response = await fetch(`${apiUrl}/api/settings/whoami`);
+
+    if (isErrorResponse(response)) {
+      return Promise.reject();
+    }
+
+    return response.text();
+  }
 };
 
 export default SettingsService;

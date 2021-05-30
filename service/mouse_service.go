@@ -1,18 +1,15 @@
 package service
 
 import (
-	"github.com/rykol/remote/service/domain"
 	"github.com/rykol/remote/web/dto"
 )
 
 type MouseService struct {
-	config domain.Config
 	worker MouseWorker
 }
 
 func NewMouseService(worker MouseWorker) MouseService {
 	return MouseService{
-		config: domain.NewDefaultConfig(),
 		worker: worker,
 	}
 }

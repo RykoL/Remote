@@ -46,6 +46,7 @@
     "@pact-foundation/pact": "^9.15.5",
     "@types/jest": "^26.0.20",
     "@types/react": "^17.0.4",
+    "@types/styled-components": "^5.1.9",
     "msw": "^0.25.0",
     "prettier": "2.2.1"
   }

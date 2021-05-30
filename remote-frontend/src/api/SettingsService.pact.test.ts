@@ -63,4 +63,24 @@ describe("Configuration Pact", () => {
 
     expect(await SettingsService.saveSettings(settingsFixture)).toBe(undefined);
   });
+
+  test("getting local ip", async () => {
+    await provider.addInteraction({
+      state: "",
+      uponReceiving: "a request to get the hosts ip",
+      withRequest: {
+        method: "GET",
+        path: "/api/settings/whoami",
+      },
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: like("http://192.168.178.5")
+      }
+    })
+
+    expect(SettingsService.whoami()).resolves.toBe("http://192.168.178.5")
+  });
 });

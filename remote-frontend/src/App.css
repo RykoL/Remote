@@ -1,0 +1,36 @@
+:root {
+    --primary-red: #A53F2B;
+    --primary-blue: #717EC3;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    color: white;
+}
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 6rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+p, a, label {
+    font-size: 1.6rem;
+}
+
+a, a:visited {
+    color: var(--primary-red);
+    text-decoration: none;
+}
+
+html {
+    font-size: 62.5%;
+}

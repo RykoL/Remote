@@ -5,14 +5,20 @@ import (
 	"log"
 	"net/http"
 	"net"
+	"fmt"
+	"github.com/rykol/remote/service"
 	"github.com/rykol/remote/service/domain"
+	"github.com/boombuler/barcode"
+	"github.com/boombuler/barcode/qr"
+	"image/png"
+	"image/color"
 )
 
 type ConfigController struct {
 	config *domain.Config
 }
 
-func GetOutboundIP() net.IP {
+func getOutboundIP() net.IP {
     conn, err := net.Dial("udp", "8.8.8.8:80")
     if err != nil {
         log.Fatal(err)
@@ -21,8 +27,11 @@ func GetOutboundIP() net.IP {
 
     localAddr := conn.LocalAddr().(*net.UDPAddr)
 
-	log.Println(localAddr.IP)
     return localAddr.IP
+}
+
+func ConstructRemoteUrl(protocol string, localIp net.IP, port int) string {
+	return fmt.Sprintf("%s://%s:%d", protocol, localIp.String(), port)
 }
 
 func NewConfigController(config *domain.Config) ConfigController {
@@ -36,7 +45,26 @@ func (c ConfigController) ConfigGetHandler(w http.ResponseWriter, req *http.Requ
 }
 
 func (c ConfigController) WhoAmI(w http.ResponseWriter, req *http.Request) {
-	w.Write([]byte(GetOutboundIP().String()))
+	SetupCors(&w)
+	url := ConstructRemoteUrl("http", getOutboundIP(), c.config.Port)
+	w.Write([]byte(url))
+}
+
+func (c ConfigController) GetLocationQRCode(w http.ResponseWriter, req *http.Request) {
+	SetupCors(&w)
+	dataString := ConstructRemoteUrl("http", getOutboundIP(), c.config.Port)
+
+	qrCode, err := qr.Encode(dataString, qr.L, qr.Auto)
+	if err != nil {
+		log.Println(err)
+	}
+	qrCode, err = barcode.Scale(qrCode, 512, 512)
+	if err != nil {
+		log.Println(err)
+	}
+	fff := service.ConvertToAplha(qrCode, color.White)
+
+	png.Encode(w, fff)
 }
 
 func (c *ConfigController) UpdateConfigHandler(w http.ResponseWriter, req *http.Request) {
@@ -71,4 +99,5 @@ func (c ConfigController) ConfigMethodRouter(w http.ResponseWriter, req *http.Re
 func (c ConfigController) RegisterConfigRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/api/settings", c.ConfigMethodRouter)
 	mux.HandleFunc("/api/settings/whoami", c.WhoAmI)
+	mux.HandleFunc("/api/settings/whoami/qr", c.GetLocationQRCode)
 }

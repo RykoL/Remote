@@ -9,8 +9,6 @@ export const OkButton = styled.div`
   min-width: 200px;
   min-height: 200px;
   text-align: center;
-  grid-row: 2 / 2;
-  grid-column: 2 / 2;
   animation: fadein 5s infinite;
 
   @keyframes fadein {
@@ -33,5 +31,7 @@ export const OkButton = styled.div`
   & p {
     font-size: 4em;
     font-weight: bold;
+    margin: 0;
+    line-height: 200px;
   }
 `;

@@ -3,6 +3,7 @@ module github.com/rykol/remote
 go 1.15
 
 require (
+	github.com/boombuler/barcode v1.0.1
 	github.com/go-vgo/robotgo v0.92.1
 	github.com/pact-foundation/pact-go v1.5.2
 	github.com/stretchr/testify v1.4.0 // indirect

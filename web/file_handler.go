@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"path/filepath"
 	"os"
-	"log"
 )
 // spaHandler implements the http.Handler interface, so we can use it
 // to respond to HTTP requests. The path to the static directory and
@@ -35,7 +34,6 @@ func (h SPAStaticHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     // check whether a file exists at the given path
 	_, err = os.Stat(path)
 	if os.IsNotExist(err) {
-		log.Println("Couldn't find file falling back to index")
 		// file does not exist, serve index.html
 		http.ServeFile(w, r, filepath.Join(h.StaticPath, h.IndexPath))
 		return
@@ -47,7 +45,6 @@ func (h SPAStaticHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
     // otherwise, use http.FileServer to serve the Static dir
-	log.Println("Using fileserver to serve file")
 	http.FileServer(http.Dir(h.StaticPath)).ServeHTTP(w, r)
 }
 

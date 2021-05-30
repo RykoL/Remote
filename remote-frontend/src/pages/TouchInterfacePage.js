@@ -2,14 +2,22 @@ import { useState } from "react";
 import styled from "styled-components";
 import { submitMouseClick } from "../api/MouseApiService";
 import { OkButton } from "../components/TouchInterfacePage/OkButton";
+import { GearButton } from "../components/TouchInterfacePage/GearButton";
 import { MouseMoveHandler } from "../mouseHandlers/mouseMoveHandler";
 import { MouseScrollHandler } from "../mouseHandlers/mouseScrollHandler";
 
 const StyledMain = styled.main`
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   height: 100%;
+`;
+
+const GearButtonContainer = styled.div`
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
 `;
 
 const handlerMap = {
@@ -47,6 +55,9 @@ const TouchInterfacePage = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
+      <GearButtonContainer>
+        <a href="/settings"><GearButton/></a>
+      </GearButtonContainer>
       <OkButton>
         <p>{message}</p>
       </OkButton>

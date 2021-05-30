@@ -9,12 +9,29 @@ import (
 	"github.com/rykol/remote/service"
 	"github.com/rykol/remote/service/domain"
 	"github.com/rykol/remote/web"
+	"strconv"
+	"fmt"
+	"os/exec"
+	"runtime"
 )
 
-func setupCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+func openBrowser(url string) {
+	var err error
+
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func main() {
@@ -28,7 +45,8 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	config := domain.NewDefaultConfig()
+	numberPort, _ := strconv.Atoi(port)
+	config := domain.NewDefaultConfig(numberPort)
 	configController := web.NewConfigController(&config)
 
 	staticController := web.SPAStaticHandler{StaticPath: assetDir, IndexPath: "index.html"}
@@ -42,5 +60,6 @@ func main() {
 	configController.RegisterConfigRoutes(mux)
 
 	log.Printf("Serving at 0.0.0.0:%s", port)
+	openBrowser("http://localhost:" + port + "/welcome")
 	http.ListenAndServe("0.0.0.0:"+port, mux)
 }
