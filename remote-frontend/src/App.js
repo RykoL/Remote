@@ -1,10 +1,9 @@
-import styles from "./App.css"
+import "./App.css"
 import TouchInterfacePage from "./pages/TouchInterfacePage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {useState} from "react";
 import SettingsPage from "./pages/SettingsPage";
 import {WelcomePage} from "./pages/WelcomePage";
-import {getConfig} from "./config"
 import SettingsService from "./api/SettingsService"
 
 const App = () => {

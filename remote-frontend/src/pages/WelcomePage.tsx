@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
 import React from 'react'
-import SettingsService from '../api/SettingsService'
 import styled from "styled-components";
 
 const QRCodeImage = styled.img`
@@ -86,12 +84,6 @@ interface Props {
 }
 
 export const WelcomePage: React.FC<Props> = ({ qrCodeUrl }) => {
-
-    const [appLink, setAppLink] = useState<string>();
-
-    useEffect(() => {
-        SettingsService.whoami().then(setAppLink)
-    }, []);
 
     return (
         <WelcomeContainer>
